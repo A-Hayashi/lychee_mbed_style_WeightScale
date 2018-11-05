@@ -176,38 +176,38 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 SECONDARY_FLASH += \
-lychee_mbed_style_rammonitor.bin \
+lychee_mbed_style_WeightScale.bin \
 
 SECONDARY_SIZE += \
-lychee_mbed_style_rammonitor.siz \
+lychee_mbed_style_WeightScale.siz \
 
 
 # All Target
-all: lychee_mbed_style_rammonitor.elf secondary-outputs
+all: lychee_mbed_style_WeightScale.elf secondary-outputs
 
 # Tool invocations
-lychee_mbed_style_rammonitor.elf: $(OBJS) $(USER_OBJS)
+lychee_mbed_style_WeightScale.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C++ Linker'
-	arm-none-eabi-g++ -mcpu=cortex-a9 -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=vfpv3 -mno-unaligned-access -O2 -fmessage-length=0 -ffunction-sections -fdata-sections -fno-builtin -funsigned-char -fno-delete-null-pointer-checks -fomit-frame-pointer -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers  -g -T "C:\\Users\\Akinori\\e2_studio\\workspace\\lychee_mbed_style_rammonitor\\linker-script-debug.ld" -Xlinker --gc-sections -Xlinker --wrap=main -Xlinker --wrap=_malloc_r -Xlinker --wrap=_free_r -Xlinker --wrap=_realloc_r -Xlinker --wrap=_memalign_r -Xlinker --wrap=_calloc_r -Xlinker --wrap=exit -Xlinker --wrap=atexit -Wl,-Map,"lychee_mbed_style_rammonitor.map" -DMBED_DEBUG -DMBED_TRAP_ERRORS_ENABLED=1 -DMBED_ROM_START=0x18000000 -DMBED_ROM_SIZE=0x800000 -Wl,-n -mthumb-interwork -march=armv7-a -mfpu=vfpv3 -mno-unaligned-access -Wl,--start-group -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys -Wl,--end-group -o "lychee_mbed_style_rammonitor.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-g++ -mcpu=cortex-a9 -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=vfpv3 -mno-unaligned-access -O2 -fmessage-length=0 -ffunction-sections -fdata-sections -fno-builtin -funsigned-char -fno-delete-null-pointer-checks -fomit-frame-pointer -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers  -g -T "C:\\Users\\Akinori\\e2_studio\\workspace\\lychee_mbed_style_WeightScale\\linker-script-debug.ld" -Xlinker --gc-sections -Xlinker --wrap=main -Xlinker --wrap=_malloc_r -Xlinker --wrap=_free_r -Xlinker --wrap=_realloc_r -Xlinker --wrap=_memalign_r -Xlinker --wrap=_calloc_r -Xlinker --wrap=exit -Xlinker --wrap=atexit -Wl,-Map,"lychee_mbed_style_WeightScale.map" -DMBED_DEBUG -DMBED_TRAP_ERRORS_ENABLED=1 -DMBED_ROM_START=0x18000000 -DMBED_ROM_SIZE=0x800000 -Wl,-n -mthumb-interwork -march=armv7-a -mfpu=vfpv3 -mno-unaligned-access -Wl,--start-group -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys -Wl,--end-group -o "lychee_mbed_style_WeightScale.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-lychee_mbed_style_rammonitor.bin: lychee_mbed_style_rammonitor.elf
+lychee_mbed_style_WeightScale.bin: lychee_mbed_style_WeightScale.elf
 	@echo 'Invoking: Cross ARM GNU Create Flash Image'
-	arm-none-eabi-objcopy -O binary "lychee_mbed_style_rammonitor.elf"  "lychee_mbed_style_rammonitor.bin"
+	arm-none-eabi-objcopy -O binary "lychee_mbed_style_WeightScale.elf"  "lychee_mbed_style_WeightScale.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-lychee_mbed_style_rammonitor.siz: lychee_mbed_style_rammonitor.elf
+lychee_mbed_style_WeightScale.siz: lychee_mbed_style_WeightScale.elf
 	@echo 'Invoking: Cross ARM GNU Print Size'
-	arm-none-eabi-size --format=berkeley "lychee_mbed_style_rammonitor.elf"
+	arm-none-eabi-size --format=berkeley "lychee_mbed_style_WeightScale.elf"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(JMP_DEPS)$(FSY_DEPS)$(C_UPPER_DEPS)$(SECONDARY_SIZE)$(P_DEPS)$(C_DEPS)$(SRC_DEPS)$(PP_DEPS)$(CC_DEPS)$(SX_DEPS)$(C++_DEPS)$(OBJS)$(CXX_DEPS)$(SECONDARY_FLASH)$(ASM_DEPS)$(S_UPPER_DEPS)$(CPP_DEPS) lychee_mbed_style_rammonitor.elf
+	-$(RM) $(JMP_DEPS)$(FSY_DEPS)$(C_UPPER_DEPS)$(SECONDARY_SIZE)$(P_DEPS)$(C_DEPS)$(SRC_DEPS)$(PP_DEPS)$(CC_DEPS)$(SX_DEPS)$(C++_DEPS)$(OBJS)$(CXX_DEPS)$(SECONDARY_FLASH)$(ASM_DEPS)$(S_UPPER_DEPS)$(CPP_DEPS) lychee_mbed_style_WeightScale.elf
 	-@echo ' '
 
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_SIZE)

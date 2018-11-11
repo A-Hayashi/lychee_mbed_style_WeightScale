@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../PS_PAD.cpp \
+../Weight.cpp \
 ../main.cpp 
 
 OBJS += \
 ./PS_PAD.o \
+./Weight.o \
 ./main.o 
 
 CPP_DEPS += \
 ./PS_PAD.d \
+./Weight.d \
 ./main.d 
 
 

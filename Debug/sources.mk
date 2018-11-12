@@ -39,6 +39,7 @@ CPP_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+Adafruit_GFX \
 . \
 mbed-gr-libs/AsciiFont \
 mbed-gr-libs/DisplayApp \

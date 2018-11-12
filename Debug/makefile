@@ -124,6 +124,7 @@ RM := rm -rf
 -include mbed-gr-libs/EasyAttach_CameraAndLCD/subdir.mk
 -include mbed-gr-libs/DisplayApp/subdir.mk
 -include mbed-gr-libs/AsciiFont/subdir.mk
+-include Adafruit_GFX/subdir.mk
 -include subdir.mk
 -include objects.mk
 

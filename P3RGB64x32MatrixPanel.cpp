@@ -5,6 +5,8 @@ P3RGB64x32MatrixPanel *P3RGB64x32MatrixPanel::singleton;
 Ticker P3RGB64x32MatrixPanel::timer;
 Semaphore P3RGB64x32MatrixPanel::timerSemaphore(0);
 
+Serial pc(USBTX, USBRX);
+
 void P3RGB64x32MatrixPanel::onTimer() {
 	Mutex timerMux;
 	timerMux.lock();
@@ -23,6 +25,7 @@ void P3RGB64x32MatrixPanel::begin() {
 
 	//timerSemaphore.wait();
 	timer.attach_us(onTimer, 30);
+	pc.printf("P3RGB64x32MatrixPanel::begin\n");
 }
 
 void P3RGB64x32MatrixPanel::stop() {
@@ -137,5 +140,7 @@ void P3RGB64x32MatrixPanel::draw() {
 
 	pinLAT = LOW;
 	pinOE = LOW;
+
+	pc.printf("P3RGB64x32MatrixPanel::draw\n");
 }
 

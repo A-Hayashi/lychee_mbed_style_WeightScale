@@ -26,16 +26,25 @@ P3RGB64x32MatrixPanel matrix(A0,D3,A1,A2,D4,A3,D9,D7,D8,A4,D5,A5,D6);
 uint16_t Wheel(byte WheelPos);
 void setup();
 void loop();
+void draw_main();
 
+Thread T1(osPriorityNormal, 1000*1024);
 
 int main()
+{
+	T1.start(&draw_main);
+
+	while (true);
+	return 0;
+}
+
+
+void draw_main()
 {
 	setup();
 	while(true){
 		loop();
 	}
-
-	return 0;
 }
 
 void setup() {

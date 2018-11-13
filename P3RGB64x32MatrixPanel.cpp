@@ -2,6 +2,8 @@
 #include "mbed.h"
 
 P3RGB64x32MatrixPanel *P3RGB64x32MatrixPanel::singleton;
+Ticker P3RGB64x32MatrixPanel::timer;
+Semaphore P3RGB64x32MatrixPanel::timerSemaphore(0);
 
 void P3RGB64x32MatrixPanel::onTimer() {
 	Mutex timerMux;
@@ -19,9 +21,7 @@ void P3RGB64x32MatrixPanel::begin() {
 	pinCLK = LOW;
 	pinOE = HIGH;
 
-	static Semaphore timerSemaphore(2);
-	timerSemaphore.wait();
-
+	//timerSemaphore.wait();
 	timer.attach_us(onTimer, 30);
 }
 
@@ -94,7 +94,6 @@ void P3RGB64x32MatrixPanel::drawPixel(int16_t x, int16_t y, uint16_t color) {
 void P3RGB64x32MatrixPanel::draw() {
 	static byte cnt = 30;
 	static byte y = 15;
-	static uint32_t out = 0;
 	y = (y + 1) % 16;
 
 	if (y == 0)
@@ -122,6 +121,8 @@ void P3RGB64x32MatrixPanel::draw() {
 		pinB2 = b2;
 
 		pinCLK = HIGH;
+		wait_us(1);
+		pinCLK = LOW;
 	}
 
 	pinOE = HIGH;
@@ -132,11 +133,9 @@ void P3RGB64x32MatrixPanel::draw() {
 	pinC = (y & 0x04) ? HIGH : LOW;
 	pinD = (y & 0x08) ? HIGH : LOW;
 
-	for (int x = 0; x < 8; x++)
-		wait_us(100); // to wait latch and row switch
+	wait_us(1); // to wait latch and row switch
 
-	pinOE = 1;
-	pinLAT = 1;
+	pinLAT = LOW;
+	pinOE = LOW;
 }
 
-int _getc() { return -1; };

@@ -1,8 +1,8 @@
 #ifndef _ESP32_P3_RGB_64_32_MATRIX_PANEL
 #define _ESP32_P3_RGB_64_32_MATRIX_PANEL
 
-#include <array>
 #include <vector>
+#include <array>
 #include "./Adafruit_GFX/Adafruit_GFX.h"
 #include "mbed.h"
 
@@ -38,8 +38,6 @@ class P3RGB64x32MatrixPanel : public Adafruit_GFX {
         _matrixbuff[1] = _matrixbuff[0];
     }
 
-    int _getc();
-
   private:
     void initMatrixBuff() {
       _matrixbuff.resize(doubleBuffer ? 2 : 1);
@@ -55,6 +53,7 @@ class P3RGB64x32MatrixPanel : public Adafruit_GFX {
       else
         return _matrixbuff[0].data();
     }
+    static Ticker timer;
 
     DigitalOut pinR1;
     DigitalOut pinG1;
@@ -73,10 +72,7 @@ class P3RGB64x32MatrixPanel : public Adafruit_GFX {
     DigitalOut pinD;
 
     bool doubleBuffer;
-
-    static Ticker timer;
     static Semaphore timerSemaphore;
-
     static P3RGB64x32MatrixPanel *singleton;
 };
 

@@ -2,8 +2,26 @@
 
 #include "P3RGB64x32MatrixPanel.h"
 #include "mbed.h"
+//A0 R1
+//D3 G1
+//A1 B1
+//A2 R2
+//D4 G2
+//A3 B2
+//D9 CLK
+//D7 LAT
+//D8 OE
+//A4 A
+//D5 B
+//A5 C
+//D6 D
 
-P3RGB64x32MatrixPanel matrix(P5_14,P5_14,P5_14,P5_14,P5_14,P5_14,P5_14,P5_14,P5_14,P5_14,P5_14,P5_14,P5_14,P5_14);
+//P3RGB64x32MatrixPanel(PinName _pinR1, PinName _pinG1, PinName _pinB1, PinName _pinR2, PinName _pinG2, PinName _pinB2, PinName _pinCLK, PinName _pinLAT, PinName _pinOE, PinName _pinA, PinName _pinB, PinName _pinC, PinName _pinD, bool _doubleBuffer = false)
+//  : Adafruit_GFX(64, 32), pinR1(_pinR1), pinG1(_pinG1), pinB1(_pinB1), pinR2(_pinR2), pinG2(_pinG2), pinB2(_pinB2), pinCLK(_pinCLK), pinLAT(_pinLAT), pinOE(_pinOE), pinA(_pinA), pinB(_pinB), pinC(_pinC), pinD(_pinD), doubleBuffer(_doubleBuffer) {
+//  initMatrixBuff();
+//}
+
+P3RGB64x32MatrixPanel matrix(A0,D3,A1,A2,D4,A3,D9,D7,D8,A4,D5,A5,D6);
 
 uint16_t Wheel(byte WheelPos);
 void setup();

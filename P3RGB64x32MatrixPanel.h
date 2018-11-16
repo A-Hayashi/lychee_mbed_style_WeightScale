@@ -45,6 +45,7 @@ class P3RGB64x32MatrixPanel : public Adafruit_GFX {
     }
     static void onTimer(void);
     void draw();
+    void test();
 
     uint16_t* drawBuffer() {
       if (!doubleBuffer) return _matrixbuff[0].data();
@@ -53,8 +54,6 @@ class P3RGB64x32MatrixPanel : public Adafruit_GFX {
       else
         return _matrixbuff[0].data();
     }
-    static Ticker timer;
-
     DigitalOut pinR1;
     DigitalOut pinG1;
     DigitalOut pinB1;
@@ -72,7 +71,8 @@ class P3RGB64x32MatrixPanel : public Adafruit_GFX {
     DigitalOut pinD;
 
     bool doubleBuffer;
-    static Semaphore timerSemaphore;
+
+    static Ticker timer;
     static P3RGB64x32MatrixPanel *singleton;
 };
 

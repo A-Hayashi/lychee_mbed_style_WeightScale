@@ -1,31 +1,67 @@
 #include "P3RGB64x32MatrixPanel.h"
 #include "mbed.h"
 
-P3RGB64x32MatrixPanel *P3RGB64x32MatrixPanel::singleton;
 Ticker P3RGB64x32MatrixPanel::timer;
-Semaphore P3RGB64x32MatrixPanel::timerSemaphore(0);
+P3RGB64x32MatrixPanel *P3RGB64x32MatrixPanel::singleton;
 
-Serial pc(USBTX, USBRX);
+void P3RGB64x32MatrixPanel::test()
+{
+	pinR1 = LOW;
+	pinG1 = LOW;
+	pinB1 = LOW;
+	pinR2 = LOW;
+	pinG2 = LOW;
+	pinB2 = LOW;
+	pinCLK = LOW;
+	pinOE = LOW;
+	pinLAT = LOW;
+	pinA = LOW;
+	pinB = LOW;
+	pinC = LOW;
+	pinD = LOW;
+
+	wait_us(10000);
+	pinR1 = HIGH;	//10 o
+	wait_us(10000);
+	pinG1 = HIGH;	//20 o
+	wait_us(10000);
+	pinB1 = HIGH;	//30 o
+	wait_us(10000);
+	pinR2 = HIGH;	//40 o
+	wait_us(10000);
+	pinG2 = HIGH;	//50 o
+	wait_us(10000);
+	pinB2 = HIGH;	//60 o
+	wait_us(10000);
+	pinCLK = HIGH;	//70 o
+	wait_us(10000);
+	pinOE = HIGH;	//80 o
+	wait_us(10000);
+	pinLAT = HIGH;	//90 o
+	wait_us(10000);
+	pinA = HIGH;	//100 o
+	wait_us(10000);
+	pinB = HIGH;	//110 o
+	wait_us(10000);
+	pinC = HIGH;	//120 o
+	wait_us(10000);
+	pinD = HIGH;	//130 o
+	wait_us(10000);
+}
 
 void P3RGB64x32MatrixPanel::onTimer() {
-	Mutex timerMux;
-	timerMux.lock();
-
+//	singleton->test();
 	singleton->draw();
-	timerMux.unlock();
-	timerSemaphore.release();
 }
 
 void P3RGB64x32MatrixPanel::begin() {
 	singleton = this;
-
 	pinLAT = LOW;
 	pinCLK = LOW;
 	pinOE = HIGH;
 
-	//timerSemaphore.wait();
-	timer.attach_us(onTimer, 30);
-	pc.printf("P3RGB64x32MatrixPanel::begin\n");
+	timer.attach_us(onTimer, 100);
+//	timer.attach(onTimer, 3);
 }
 
 void P3RGB64x32MatrixPanel::stop() {
@@ -124,23 +160,19 @@ void P3RGB64x32MatrixPanel::draw() {
 		pinB2 = b2;
 
 		pinCLK = HIGH;
-		wait_us(1);
 		pinCLK = LOW;
 	}
 
 	pinOE = HIGH;
 	pinLAT = HIGH;
+	pinLAT = LOW;
 
 	pinA = (y & 0x01) ? HIGH : LOW;
 	pinB = (y & 0x02) ? HIGH : LOW;
 	pinC = (y & 0x04) ? HIGH : LOW;
 	pinD = (y & 0x08) ? HIGH : LOW;
 
-	wait_us(1); // to wait latch and row switch
-
-	pinLAT = LOW;
 	pinOE = LOW;
-
-	pc.printf("P3RGB64x32MatrixPanel::draw\n");
+	wait_us(1); // to wait latch and row switch
 }
 

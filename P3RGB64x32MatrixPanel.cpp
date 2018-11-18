@@ -1,8 +1,13 @@
 #include "P3RGB64x32MatrixPanel.h"
 #include "mbed.h"
+#include "iodefine.h"
 
 Ticker P3RGB64x32MatrixPanel::timer;
 P3RGB64x32MatrixPanel *P3RGB64x32MatrixPanel::singleton;
+
+
+static EventQueue queue(1000 * EVENTS_EVENT_SIZE);
+static Thread eventThread(osPriorityISR, 100*1024);
 
 void P3RGB64x32MatrixPanel::test()
 {
@@ -60,8 +65,9 @@ void P3RGB64x32MatrixPanel::begin() {
 	pinCLK = LOW;
 	pinOE = HIGH;
 
-	timer.attach_us(onTimer, 100);
-//	timer.attach(onTimer, 3);
+	eventThread.start(callback(&queue, &EventQueue::dispatch_forever));
+	timer.attach_us(queue.event(onTimer), 100);
+//	timer.attach_us(onTimer, 80);
 }
 
 void P3RGB64x32MatrixPanel::stop() {
@@ -152,12 +158,24 @@ void P3RGB64x32MatrixPanel::draw() {
 		g2 = ((c >> 5) & 0x1f) > cmp;
 		b2 = ((c >> 10) & 0x1f) > cmp;
 
-		pinR1 = r1;
-		pinG1 = g1;
-		pinB1 = b1;
-		pinR2 = r2;
-		pinG2 = g2;
-		pinB2 = b2;
+		//P5_14 D0	R1
+		//P5_8 	D3	G1
+		//P5_15 D1	B1
+		//P5_9 	D2	R2
+		//P5_11 D4	G2
+		//P5_10 D5 	B2
+
+		uint16_t out;
+		out = GPIO.P5 & ~((1<<14) | (1<<8) | (1<<15) | (1<<9) | (1<<11) | (1<<10));
+		out |= ((r1<<14) | (g1<<8) | (b1<<15) | (r2<<9) | (g2<<11) | (b2<<10));
+		GPIO.P5 = out;
+
+//		pinR1 = r1;
+//		pinG1 = g1;
+//		pinB1 = b1;
+//		pinR2 = r2;
+//		pinG2 = g2;
+//		pinB2 = b2;
 
 		pinCLK = HIGH;
 		pinCLK = LOW;
@@ -173,6 +191,6 @@ void P3RGB64x32MatrixPanel::draw() {
 	pinD = (y & 0x08) ? HIGH : LOW;
 
 	pinOE = LOW;
-	wait_us(1); // to wait latch and row switch
+//	wait_us(1); // to wait latch and row switch
 }
 

@@ -6,8 +6,8 @@ Ticker P3RGB64x32MatrixPanel::timer;
 P3RGB64x32MatrixPanel *P3RGB64x32MatrixPanel::singleton;
 
 
-static EventQueue queue(1000 * EVENTS_EVENT_SIZE);
-static Thread eventThread(osPriorityISR, 100*1024);
+static EventQueue queue(20 * EVENTS_EVENT_SIZE);
+static Thread eventThread(osPriorityRealtime, 20*1024);
 
 void P3RGB64x32MatrixPanel::test()
 {
@@ -66,8 +66,8 @@ void P3RGB64x32MatrixPanel::begin() {
 	pinOE = HIGH;
 
 	eventThread.start(callback(&queue, &EventQueue::dispatch_forever));
-	timer.attach_us(queue.event(onTimer), 100);
-//	timer.attach_us(onTimer, 80);
+	timer.attach_us(queue.event(onTimer), 200);
+//	timer.attach_us(onTimer, 100);
 }
 
 void P3RGB64x32MatrixPanel::stop() {

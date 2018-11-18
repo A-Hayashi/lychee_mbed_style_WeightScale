@@ -1,11 +1,11 @@
 #include "Weight.h"
 #include "mbed.h"
 
-static Serial pc(USBTX, USBRX);
+//static Serial pc(USBTX, USBRX);
 
 #define TIMEOUT_US 30000
 
-static InterruptIn p(P5_9);
+static InterruptIn p(D15);
 static Timer t;
 static Timeout t2;
 static Timeout t3;
@@ -14,11 +14,13 @@ static uint32_t bh = 0;
 static uint32_t bl = 0;
 static uint32_t cnt = 0;
 
-static EventQueue queue(320 * EVENTS_EVENT_SIZE);
+static EventQueue queue(20 * EVENTS_EVENT_SIZE);
 
 static void fall();
 static void rise();
 static void restart();
+
+extern void weight_result(uint8_t stable, float weight);
 
 static void itob(char *s, int n, unsigned long long v) {
 	if (n > 0) {
@@ -45,24 +47,27 @@ static void eee(uint32_t bh, uint32_t bl) {
 		t3.attach(queue.event(restart), 5);
 	}
 
-	char s[64];
-	itob(s, 2, (unsigned long long int) stable);
-	pc.printf(s);
-	pc.printf(" ");
-
-	itob(s, 32, bh);
-	pc.printf(s);
-	pc.printf(" ");
-
-	itob(s, 32, bl);
-	pc.printf(s);
-	pc.printf("\n");
+//	char s[64];
+//	itob(s, 2, (unsigned long long int) stable);
+//	pc.printf(s);
+//	pc.printf(" ");
+//
+//	itob(s, 32, bh);
+//	pc.printf(s);
+//	pc.printf(" ");
+//
+//	itob(s, 32, bl);
+//	pc.printf(s);
+//	pc.printf("\n");
 
 	if (stable == 0x00) {
+		weight_result(0, 0);
 	} else if (stable == 0x01) {
+		weight_result(1, 0);
 	} else if (stable == 0x03) {
 		float weight = (bh & 0xffff) / (float) 10;
-		pc.printf("%5.2f\t\n", weight);
+		weight_result(2, weight);
+//		pc.printf("%5.2f\t\n", weight);
 	} else {
 	}
 }
@@ -112,10 +117,10 @@ static void fall() {
 	p.rise(queue.event(rise));
 }
 
-Thread eventThread;
+static Thread eventThread(osPriorityISR, 1*1024);
 void weight_init() {
 	eventThread.start(callback(&queue, &EventQueue::dispatch_forever));
-	pc.printf("start\n");
+//	pc.printf("start\n");
 	p.mode(PullNone);
 	p.rise(queue.event(rise));
 

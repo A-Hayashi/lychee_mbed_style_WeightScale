@@ -1,7 +1,5 @@
 main.o: ../main.cpp \
  C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed_config.h \
- ../P3RGB64x32MatrixPanel.h .././Adafruit_GFX/Adafruit_GFX.h \
- .././Adafruit_GFX/Adafruit_GFX_Config.h \
  C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed-os/mbed.h \
  C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed-os/platform/mbed_version.h \
  C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed-os/rtos/rtos.h \
@@ -226,15 +224,10 @@ main.o: ../main.cpp \
  C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed-os/platform/Callback.h \
  C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed-os/platform/FunctionPointer.h \
  C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed-os/platform/ScopedLock.h \
- ../PS_PAD.h
+ ../PS_PAD.h ../Weight.h ../P3RGB64x32MatrixPanel.h \
+ .././Adafruit_GFX/Adafruit_GFX.h .././Adafruit_GFX/Adafruit_GFX_Config.h
 
 C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed_config.h:
-
-../P3RGB64x32MatrixPanel.h:
-
-.././Adafruit_GFX/Adafruit_GFX.h:
-
-.././Adafruit_GFX/Adafruit_GFX_Config.h:
 
 C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed-os/mbed.h:
 
@@ -685,3 +678,11 @@ C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed-os/platf
 C:/Users/Akinori/e2_studio/workspace/lychee_mbed_style_WeightScale/mbed-os/platform/ScopedLock.h:
 
 ../PS_PAD.h:
+
+../Weight.h:
+
+../P3RGB64x32MatrixPanel.h:
+
+.././Adafruit_GFX/Adafruit_GFX.h:
+
+.././Adafruit_GFX/Adafruit_GFX_Config.h:

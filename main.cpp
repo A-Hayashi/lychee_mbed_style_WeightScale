@@ -1,6 +1,7 @@
 /* Derived from Adafruit RGB_matrix_Panel library */
 
 #include "P3RGB64x32MatrixPanel.h"
+#include "PS_PAD.h"
 #include "mbed.h"
 
 //P5_14 D0	R1
@@ -17,12 +18,6 @@
 //P1_6 	D15	C
 //P4_1		LAT
 
-
-//P3RGB64x32MatrixPanel(PinName _pinR1, PinName _pinG1, PinName _pinB1, PinName _pinR2, PinName _pinG2, PinName _pinB2, PinName _pinCLK, PinName _pinLAT, PinName _pinOE, PinName _pinA, PinName _pinB, PinName _pinC, PinName _pinD, bool _doubleBuffer = false)
-//  : Adafruit_GFX(64, 32), pinR1(_pinR1), pinG1(_pinG1), pinB1(_pinB1), pinR2(_pinR2), pinG2(_pinG2), pinB2(_pinB2), pinCLK(_pinCLK), pinLAT(_pinLAT), pinOE(_pinOE), pinA(_pinA), pinB(_pinB), pinC(_pinC), pinD(_pinD), doubleBuffer(_doubleBuffer) {
-//  initMatrixBuff();
-//}
-
 void draw_main();
 void setup(P3RGB64x32MatrixPanel &matrix);
 void loop();
@@ -31,29 +26,47 @@ uint16_t Wheel(P3RGB64x32MatrixPanel &matrix, byte WheelPos);
 Thread T1(osPriorityNormal, 1500 * 1024);
 Serial pc(USBTX, USBRX);
 
+
 int main() {
 	T1.start(&draw_main);
 
-	while (true) {
-
-	}
+	while (true);
 	return 0;
 }
 
 void draw_main() {
 	P3RGB64x32MatrixPanel matrix(D0, D3, D1, D2, D4, D5, D8, D6, P4_0, D14, D7, D15, P4_1);
+	PS_PAD pad(P6_14, P6_15, P6_12, P3_9);
 
 	pc.printf("draw_main\n");
-	setup(matrix);
+
+	pad.init();
+	matrix.begin();
+
 	pc.printf("setup\n");
 	while (true) {
-//		pc.printf("loop\n");
-		loop();
+		pad.poll();
+		pc.printf("%4d\t%4d\t%4d\t%4d\t%04x\n", pad.read(PS_PAD::ANALOG_RX),pad.read(PS_PAD::ANALOG_RY),pad.read(PS_PAD::ANALOG_LX),pad.read(PS_PAD::ANALOG_LY),pad.read(PS_PAD::BUTTONS));
+
+		// fill the screen with 'black'
+		pc.printf("fill the screen with 'black'\n");
+		matrix.fillScreen(matrix.color444(0, 0, 0));
+
+		matrix.setTextCursor(0, 0);
+		matrix.setTextColor(matrix.color444(15, 0, 0));
+		matrix.printf("%4d %4d\n", pad.read(PS_PAD::ANALOG_RX),pad.read(PS_PAD::ANALOG_RY));
+		matrix.setTextColor(matrix.color444(0, 15, 0));
+		matrix.printf("%4d %4d\n", pad.read(PS_PAD::ANALOG_LX),pad.read(PS_PAD::ANALOG_LY));
+		matrix.setTextColor(matrix.color444(0, 0, 15));
+		matrix.printf("%04x", pad.read(PS_PAD::BUTTONS));
+
 	}
 }
 
+#if 0
 void setup(P3RGB64x32MatrixPanel &matrix) {
 
+	pad.init();
 	matrix.begin();
 
 	// draw a pixel in solid white
@@ -144,8 +157,10 @@ void setup(P3RGB64x32MatrixPanel &matrix) {
 }
 
 void loop() {
-	// do nothing
+
+
 }
+#endif
 
 // Input a value 0 to 24 to get a color value.
 // The colours are a transition r - g - b - back to r.
